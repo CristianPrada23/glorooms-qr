@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GloRooms - Asistencia en Sala</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body { background-color: #0a0f1d; color: #fff; font-family: sans-serif; }</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-[#0d1326] border border-white/10 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl relative overflow-hidden">
+    <!-- Decoración -->
+    <div class="absolute -top-10 -left-10 w-40 h-40 bg-[#BFD730]/10 rounded-full blur-2xl"></div>
+
+    <div class="relative z-10">
+      <h1 class="text-3xl font-black mb-1">Glo<span class="text-[#BFD730]">Rooms</span></h1>
+      <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-8">Workspace Experience</p>
+
+      <div class="bg-black/40 border border-white/5 rounded-2xl p-5 mb-8 shadow-inner">
+        <div class="w-12 h-12 bg-rose-500/10 border border-rose-500/30 rounded-full flex items-center justify-center text-xl mx-auto mb-3 animate-pulse">🚨</div>
+        <p class="text-xs text-slate-400 mb-1 font-bold">Estás en la sala:</p>
+        <h2 id="room-name-display" class="text-xl font-black text-white truncate">Cargando...</h2>
+      </div>
+
+      <p class="text-xs text-slate-300 mb-6 leading-relaxed">
+        Estás a punto de solicitar asistencia presencial.<br>Necesitarás usar tu cuenta <b>@globant.com</b>
+      </p>
+
+      <button id="btn-ingresar" class="w-full py-4 bg-[#BFD730] hover:bg-white text-black font-black uppercase tracking-widest text-xs rounded-xl transition shadow-[0_0_20px_rgba(191,215,48,0.25)] flex items-center justify-center gap-2">
+        <span>🚀</span> ENTRAR Y REPORTAR
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Extraer el nombre de la sala de la URL del QR
+    const urlParams = new URLSearchParams(window.location.search);
+    const room = urlParams.get('room') || 'Sala Desconocida';
+    
+    document.getElementById('room-name-display').innerText = room;
+
+    // 2. Acción del botón: Redirigir al Apps Script forzando el login corporativo
+    document.getElementById('btn-ingresar').addEventListener('click', () => {
+      // 🌟 URL Oficial de tu App Script
+      const appScriptUrl = "https://script.google.com/macros/s/AKfycbyswvv7ZglxY1LAJE0outz_Zggrd2z9jL619a9-T8Kz012vOa4F1Wn8oO2Sskspmt1J/exec";
+      const redirectUrl = appScriptUrl + "?room=" + encodeURIComponent(room);
+      
+      // Salto final pasando por la validación de Google Workspace
+      window.location.href = "https://accounts.google.com/AccountChooser?hd=globant.com&continue=" + encodeURIComponent(redirectUrl);
+    });
+  </script>
+</body>
+</html>
